@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0-rc01'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10'
+        classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0"
+    }
+}
+
+plugins {
+    id 'com.github.ngyewch.git-version' version '0.2'
+}
+
+apply plugin: 'com.vanniktech.android.junit.jacoco'
+
+apply from: "$project.rootDir/.scripts/publish.gradle"
+apply from: "$project.rootDir/.scripts/ext.gradle"
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    version = gitVersion.gitVersionInfo.gitVersionName
+
+    apply from: "$project.rootDir/version.gradle"
+
+    apply plugin: 'java-library'
+    apply plugin: 'kotlin'
+
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+        //kotin
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+        testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    }
+}

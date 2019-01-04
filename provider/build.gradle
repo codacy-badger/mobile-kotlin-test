@@ -1,0 +1,10 @@
+dependencies {
+    //local
+    implementation project(':operator')
+
+    //commons
+    implementation 'commons-io:commons-io:2.6'
+
+    //gson
+    implementation "com.google.code.gson:gson:$gson_version"
+}
